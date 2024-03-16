@@ -18,9 +18,12 @@ class App extends React.Component{
     }
   }
 
-  icones(){
-    'verao' = 'sun'
-  }
+  icones = {
+    'Verao': 'sun',
+    'Inverno': 'snowflake',
+    'Outuno': 'canadian-maple-leaf',
+    'Primavera': 'tree'
+}
 
   obterEstacao = (dataAtual, latitude) =>{
     const anoAtual = dataAtual.getFullYear()
@@ -43,8 +46,36 @@ class App extends React.Component{
     return sul ? 'Outono' : 'Primavera'
   }
 
-  obterEstacao = () => {
+  obterLocalizacao = () => {
+    //1. Solicitar a localização do usuário usando getCurrentPosition
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        //2. Na função callback, fazer o seguinte:
+      
+        //construir um novo Date (com new Date()) que representa a data atual
+        const dataAtual = new Date(getFullYear)
+    
+        //chamar a função obterEstacao entregando a ela a latitude e a data atual, obtendo como resposta a estacao climatica
+        const estacao = this.obterEstacao(dataAtual, position.coords.latitude)
+    
+        //utilizando o nome da estacao climatica obtido, acessar o objeto icones para obter o nome do icone
+        const nomeIcone = this.icones[estacao]
+    
+        //usar a funcao chamada setState para atualizar o estado da aplicação
+    
+        //this.setState({...todos os valores de interessse aqui, como pares chave/valor})
+        this.setState({
+          latitude: posicao.coords.latitude,
+          longitude: posicao.coords.longitude,
+          estacao: estacao,
+          icone: nomeIcone,
+          data: dataAtual
+        })
 
+      }
+      
+    )
+    
   }
 
   render(){
